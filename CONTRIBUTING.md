@@ -1,74 +1,97 @@
 # Contributing to SPROUT
 
-Thanks for being interested in SPROUT!
+Thank you for taking an interest in SPROUT.
 
-Contributions can be small: a bug fix, a clearer explanation, an accessibility improvement, a visual experiment, or a thoughtful discussion.
+SPROUT is a small, local-first project intended to be observed, understood, and independently reused. Participation is welcome, but it is never required.
 
-There is no requirement to be an expert. Curiosity and a willingness to learn are welcome here.
+You can learn from the source code, experiment with your own clone, or suggest an improvement. You do not need to contribute code or interact publicly to benefit from the project.
 
-## Ways to participate
+## Project Direction
 
-- Report a bug and explain how to reproduce it.
-- Improve documentation.
-- Suggest an idea or improvement.
-- Help make the application more accessible.
-- Fix existing behavior.
-- Share a project you created from the SPROUT template.
-- Tell us what you learned while experimenting.
+SPROUT aims to remain:
 
-## Before making a change
+- Small and understandable.
+- Local-first and usable without an account.
+- Free of unnecessary analytics and telemetry.
+- Independent of a central database or hosted service.
+- Respectful of personal data and user control.
+- Honest about its limitations and security boundaries.
 
-- Read the README to understand the project's purpose and current features.
-- Check existing issues and Discussions for related ideas.
-- For larger changes, consider opening a discussion first so the direction is clear.
+Changes should support these principles rather than add complexity for its own sake.
 
-You do not need permission to experiment with your own template-generated copy.
+## Before Making Changes
 
-## A few helpful principles
+Create your own clone or fork and work independently.
 
-- Keep changes understandable where possible.
-- Respect user privacy and locally stored data.
-- Avoid unnecessary dependencies and external services.
-- Explain what changed and why.
-- Test changes when you can, and be honest about what you could not test.
-- Be respectful of different experience levels and approaches.
-
-## Testing locally
-
-SPROUT requires Node.js 20 or later and npm.
+Install dependencies from the lockfile:
 
 ```bash
 npm ci
+```
+
+Start the application:
+
+```bash
 npm start
 ```
 
-Open the local address printed by the server and test the behavior you changed.
+The default local address is:
 
-Before sharing changes, review them with:
+http://127.0.0.1:8080
+
+## Development Guidelines
+
+Prefer changes that are small, focused, and easy to understand.
+
+When changing the project:
+
+- Preserve existing functionality unless a change is intentional.
+- Avoid adding dependencies without a clear reason.
+- Do not introduce analytics, telemetry, tracking identifiers, or unnecessary network requests.
+- Do not transmit milestone content to an external service.
+- Keep personal information, credentials, tokens, and local data out of source control.
+- Document meaningful behavior changes and known limitations.
+- Avoid claiming a security or privacy guarantee that the implementation cannot support.
+
+If a change introduces external communication, persistence, or new data handling, explain why it is needed and what information it could expose.
+
+## Testing
+
+Before sharing a change, run:
 
 ```bash
-git status --short
+node --check server.js
 git diff --check
-git diff
 ```
 
-These checks help catch accidental files, whitespace mistakes, and unrelated edits. They are helpful tools, not a test of anyone's worth as a developer.
+Also test the application in a browser. Check that milestones can be added, edited, and deleted, and that the tree continues to grow as expected.
 
-## Sharing changes
+For changes involving security headers or browser restrictions, verify both the response headers and the application behavior.
 
-If you want to improve the original SPROUT project, open a discussion or submit a pull request describing:
+These checks are a starting point, not a complete security audit.
 
-- What you changed.
-- Why you think it helps.
-- How you tested it, if applicable.
-- Any known limitations.
+## Contributions Are Optional
 
-Small, focused contributions are welcome. It is perfectly fine to start by asking questions or sharing an idea.
+You may keep your changes entirely within your own copy.
 
-## Make your own tree
+A public repository does not create an obligation for the original project to accept contributions, provide support, or maintain every derivative.
 
-If you used SPROUT as a template, your independent project belongs to you. Customize it, experiment, and share what you learn.
+Suggestions and proposed changes may be considered when appropriate, but they are not promises of acceptance or a particular response time.
 
-Changes to your own copy do not automatically change the original SPROUT repository. If you want to contribute an improvement back, propose it to the original project separately.
+There is no contribution sign-off requirement.
 
-Thanks for helping SPROUT grow.
+## Respectful Participation
+
+Be constructive, explain the reasoning behind changes, and respect differences in implementation.
+
+Keep reports focused on the project. Do not publish someone else's personal information, private milestones, credentials, or other sensitive data.
+
+## License
+
+SPROUT is distributed under the MIT License. By submitting a contribution for inclusion, you agree that it may be distributed under that license.
+
+You retain the rights you already hold to your own work.
+
+---
+
+**Observe freely. Copy independently. Grow privately.**

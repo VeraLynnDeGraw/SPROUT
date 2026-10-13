@@ -6,145 +6,114 @@ SPROUT is a small, local-first milestone tracker that turns progress into a grow
 
 It began with a simple idea: useful software does not need unnecessary infrastructure, subscriptions, accounts, or complexity.
 
-Now SPROUT is also a starting point for your own ideas. Use the template, change the tree, personalize the experience, and share what you grow.
+SPROUT is shared as a tree people can observe, learn from, and clone. Each person can grow their own copy without joining a central service.
 
-## 🌱 Make SPROUT Your Own
+## The Idea
 
-**Your project. Your tree. Your direction.**
+Progress does not always arrive as a grand achievement. Sometimes it is a small task completed, a difficult day survived, or a promise kept.
 
-1. Open the [SPROUT repository](https://github.com/VeraLynnDeGraw/SPROUT).
-2. Select **Use this template**, then **Create a new repository**.
-3. Choose a name and decide whether your repository should be public or private.
-4. Clone your new repository and follow the setup instructions below.
-5. Make it yours. Change the name, colors, tree, milestones, interface, or anything else that fits your idea.
+SPROUT gives those moments a place to grow.
 
-Your new repository is independent of the original SPROUT repository. Experiment freely without changing the source project.
-
-### Share What You Grow
-
-We want to see what you create from your own SPROUT tree.
-
-Share your project, show off your customizations, describe what you learned, or suggest an improvement that could benefit others.
-
-Visit [SPROUT Discussions](https://github.com/VeraLynnDeGraw/SPROUT/discussions) to share your work and connect with other builders.
-
-You do not need a polished product, an impressive portfolio, or a business plan. A small experiment is a perfectly good place to begin.
-
-## Purpose
-
-SPROUT helps people record milestones, track progress, and see that progress represented by a growing pixel-art tree.
-
-## Principles
-
-- **Local-first:** milestone data stays in the browser's local storage.
-- **User control:** no mandatory account or external service.
-- **Understandable before sophisticated:** keep the implementation small and readable.
-- **Portable:** use standard web technologies and Node.js.
-- **Honest progress:** verify behavior before claiming success.
-- **Preservation without lock-in:** keep the project and its data under the user's control.
-- **Growth through sharing:** make room for experimentation, learning, and community contributions.
+The tree develops as milestones are added. It is a small visual reminder that growth happens one step at a time.
 
 ## Features
 
-- Add milestones.
-- Edit and delete milestones.
+- Add, edit, and delete milestones.
 - Track up to 12 milestones.
-- Watch the pixel-art tree grow.
-- Store milestones locally in the browser.
-- Use the application without an account.
-
-Planned features are not guaranteed to exist yet. Check the code and project discussions for current status.
+- Watch a pixel-art tree grow with progress.
+- Store milestones in the browser's localStorage.
+- Run locally without an account or hosted backend.
+- Use a lightweight Node.js server with no third-party runtime dependencies.
 
 ## Requirements
 
-- Node.js 20 or later
+- Node.js 20 or newer
 - npm
 
-No third-party npm dependencies are required.
+## Run Locally
 
-## Run the original project
-
-Clone SPROUT:
+Clone the repository:
 
 ```bash
 git clone https://github.com/VeraLynnDeGraw/SPROUT.git
 cd SPROUT
+```
+
+Install from the lockfile:
+
+```bash
 npm ci
+```
+
+Start SPROUT:
+
+```bash
 npm start
 ```
 
-Open http://127.0.0.1:8080 in your browser.
+Open the local address shown in your terminal. By default:
 
-The server listens on the local loopback interface by default, so it is intended for use on the same machine.
+http://127.0.0.1:8080
 
-If port 8080 is already in use, choose another port:
+To use a different port:
 
 ```bash
 PORT=8081 npm start
 ```
 
-Then open http://127.0.0.1:8081.
+The server binds to `127.0.0.1` by default, so it is intended for local use rather than public hosting.
 
-## Run your own copy
+## Privacy and Boundaries
 
-If you created a repository using the SPROUT template, clone **your new repository's URL** instead of the original URL above.
+SPROUT is designed to work without accounts, analytics, telemetry, or a central database.
 
-Then run:
+- Milestones are stored in the browser's localStorage.
+- The application does not intentionally send milestone content to a central service.
+- The local server serves the application page.
+- Browser security headers restrict resource loading, page connections, framing, and selected browser capabilities.
+- No cloud synchronization or remote account system is required.
 
-```bash
-npm ci
-npm start
-```
+These are design choices, not a promise of perfect anonymity or absolute security.
 
-## Customize Your Copy
+Browser profiles, extensions, operating systems, other software, networks, and hosting platforms may have their own access and logging behavior. Browser localStorage is not encrypted storage.
 
-Start with the files that matter most:
+For more detail, see [docs/PRIVACY.md](docs/PRIVACY.md).
 
-- `public/index.html` contains the interface, styling, and browser-side behavior.
-- `server.js` serves the application locally.
-- `package.json` contains project metadata and commands.
-- `docs/PROJECT_BRIEF.md` describes the project's purpose and constraints.
+## A Tree You Can Copy
 
-Change the project's name, visual design, pixel-art tree, milestone limit, wording, or behavior. Test your changes before sharing them.
+The public repository exists so people can inspect the source and create independent copies.
 
-If you change dependencies, update the package manifest and lockfile together.
+You do not need to create an account, submit your milestones, or participate in a community to use your own copy.
 
-## Data and privacy
+Each clone is a separate project. Your local milestones are not shared with the original repository.
 
-SPROUT stores milestone data in the browser's local storage. Data is associated with that browser and origin.
+SPROUT does not need to become a hosted platform to be useful.
 
-- No account is required.
-- The application does not require a hosted backend or external API.
-- Clearing browser data may remove saved milestones.
-- Data stored in one browser or origin is not automatically shared with another.
+## Project Principles
 
-Back up important information before experimenting with changes. Data export is not currently available.
+- **Small by design:** Prefer understandable solutions over unnecessary complexity.
+- **Local first:** Keep personal progress under the user's control.
+- **Privacy by restraint:** Do not collect information without a clear need.
+- **Independent growth:** Let each copy develop on its own.
+- **Honest boundaries:** Document limitations instead of promising perfect security.
+- **Curiosity without obligation:** People may observe and learn without having to participate.
+
+## Project Status
+
+SPROUT is an evolving learning project. Its current scope is intentionally small.
+
+Ideas for future improvements are not existing features unless they have actually been implemented and verified.
 
 ## Contributing
 
-There are two ways to participate:
+Participation is optional. You can inspect the code, learn from it, or experiment with your own copy.
 
-- **Build your own version:** use the template and customize your independent copy.
-- **Improve the shared project:** propose fixes, documentation updates, ideas, or other changes to the original repository.
-
-Read [CONTRIBUTING.md](CONTRIBUTING.md) for a few helpful guidelines. You can also open a discussion to talk through an idea before working on it.
-
-## Project status
-
-SPROUT is an evolving, open-source learning project. Its current features should be considered complete only after they have been tested.
-
-Ideas are welcome. Claims should be backed by working code.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the project's contribution principles.
 
 ## License
 
-SPROUT is released under the MIT License. See [LICENSE](LICENSE) for details.
-
-## Acknowledgments
-
-SPROUT was developed by Vera Lynn DeGraw with assistance from OpenAI's ChatGPT for brainstorming, implementation, debugging, and refinement.
-
-The project's direction, design decisions, and stewardship remain with its creator.
+SPROUT is released under the MIT License. See [LICENSE](LICENSE).
 
 ---
 
-**Start with an idea. Build something real.**
+**Observe freely. Copy independently. Grow privately.**
