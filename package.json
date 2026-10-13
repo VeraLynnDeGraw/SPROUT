@@ -1,0 +1,21 @@
+{
+  "name": "sprout",
+  "version": "1.0.0",
+  "description": "A small, local-first milestone tracker built as part of the ORIGO software workshop.",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "sprout",
+    "local-first",
+    "milestones",
+    "learning-project",
+    "origo"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}

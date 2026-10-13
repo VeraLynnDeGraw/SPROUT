@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07110b">
+  <title>SPROUT — Small steps, real growth</title>
+
+  <style>
+    :root {
+      --bg: #07110b;
+      --panel: #0b1710;
+      --panel-light: #102017;
+      --green: #7bdb91;
+      --green-bright: #a7f3b6;
+      --green-dark: #345e3e;
+      --text: #d8e8da;
+      --muted: #829987;
+      --border: #294533;
+      --danger: #e28b8b;
+      --gold: #e4c878;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 50% 0%, #142b1b 0%, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Courier New", monospace;
+      line-height: 1.6;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--green-bright);
+      outline-offset: 3px;
+    }
+
+    .page {
+      width: min(100% - 32px, 980px);
+      margin: 0 auto;
+      padding: 48px 0 28px;
+    }
+
+    header {
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--green-bright);
+      font-size: clamp(2.6rem, 8vw, 4.4rem);
+      letter-spacing: 0.09em;
+      line-height: 1.1;
+      text-shadow: 0 0 24px #7bdb9120;
+    }
+
+    .tagline {
+      margin: 12px 0 18px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .local-label {
+      display: inline-block;
+      padding: 5px 9px;
+      border: 1px solid var(--green-dark);
+      color: var(--green);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+    }
+
+    main {
+      padding: 30px 0;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: linear-gradient(160deg, #102017e8, #09130ce8);
+      box-shadow: 0 12px 36px #00000018;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .section-description {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .tree-panel {
+      text-align: center;
+    }
+
+    .tree-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 250px;
+      margin: 8px 0 0;
+    }
+
+    #treeCanvas {
+      display: block;
+      width: 180px;
+      height: 220px;
+      max-width: 100%;
+      image-rendering: pixelated;
+    }
+
+    .growth-count {
+      margin: 0;
+      color: var(--green-bright);
+      font-size: 1.1rem;
+    }
+
+    .growth-caption {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    .progress-track {
+      height: 6px;
+      margin: 18px 0 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #061009;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--green);
+      transition: width 220ms ease;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .tree-joke {
+      min-height: 42px;
+      margin: 22px 0 0;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border);
+      color: var(--gold);
+      font-size: 0.78rem;
+    }
+
+    .log-header {
+      margin-bottom: 22px;
+    }
+
+    .milestone-form {
+      display: flex;
+      gap: 8px;
+      margin: 18px 0 10px;
+    }
+
+    .milestone-input {
+      min-width: 0;
+      flex: 1;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: #061009;
+      color: var(--text);
+    }
+
+    .milestone-input::placeholder {
+      color: #657969;
+    }
+
+    .primary-button {
+      padding: 10px 13px;
+      border: 1px solid var(--green);
+      border-radius: 3px;
+      background: var(--green);
+      color: #07110b;
+      font-weight: 700;
+      transition: background 120ms ease, transform 120ms ease;
+    }
+
+    .primary-button:hover {
+      background: var(--green-bright);
+    }
+
+    .primary-button:active,
+    .secondary-button:active {
+      transform: translateY(1px);
+    }
+
+    .form-message {
+      min-height: 24px;
+      margin: 8px 0 14px;
+      color: var(--green);
+      font-size: 0.75rem;
+    }
+
+    .form-message.error {
+      color: var(--danger);
+    }
+
+    .milestone-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .empty-state {
+      padding: 24px 12px;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.82rem;
+    }
+
+    .goal {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid #1c3324;
+    }
+
+    .goal:first-child {
+      border-top: 1px solid #1c3324;
+    }
+
+    .goal-number {
+      display: grid;
+      place-items: center;
+      flex: 0 0 27px;
+      width: 27px;
+      height: 27px;
+      border: 1px solid var(--green-dark);
+      color: var(--green);
+      font-size: 0.72rem;
+    }
+
+    .goal-content {
+      min-width: 0;
+      flex: 1;
+      overflow-wrap: anywhere;
+    }
+
+    .goal-text {
+      margin: 2px 0 0;
+      color: var(--text);
+      font-size: 0.88rem;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .goal-actions {
+      display: flex;
+      flex-shrink: 0;
+      gap: 10px;
+      padding-top: 3px;
+    }
+
+    .secondary-button {
+      padding: 2px 0;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .secondary-button:hover {
+      color: var(--green-bright);
+      text-decoration: underline;
+    }
+
+    .delete-button:hover {
+      color: var(--danger);
+    }
+
+    .entry-joke {
+      margin: 0;
+      padding: 8px 0 10px 39px;
+      color: #a4b69f;
+      font-size: 0.72rem;
+      font-style: italic;
+    }
+
+    .entry-joke::before {
+      content: "↳ ";
+      color: var(--green-dark);
+    }
+
+    .limit-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .footer-tagline {
+      color: var(--green);
+    }
+
+    .footer-version {
+      white-space: nowrap;
+    }
+
+    .easter-egg {
+      width: 100%;
+      margin: 0;
+      color: #526a57;
+      font-size: 0.68rem;
+      text-align: right;
+    }
+
+    .github-credit {
+      width: 100%;
+      margin: 10px 0 0;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border);
+      text-align: center;
+      font-size: 0.75rem;
+    }
+
+    .github-credit a {
+      color: var(--green);
+      text-decoration: none;
+      transition: color 120ms ease;
+    }
+
+    .github-credit a:hover {
+      color: var(--green-bright);
+      text-decoration: underline;
+    }
+
+    .github-credit a:focus-visible {
+      outline: 2px solid var(--green-bright);
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        width: min(100% - 22px, 520px);
+        padding-top: 28px;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+
+      .tree-wrap {
+        min-height: 235px;
+      }
+
+      .goal {
+        gap: 9px;
+      }
+
+      .goal-actions {
+        gap: 8px;
+      }
+
+      .milestone-form {
+        align-items: stretch;
+      }
+
+      .primary-button {
+        padding-inline: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <h1>✳ SPROUT</h1>
+      <p class="tagline">Small steps. Real growth.</p>
+      <span class="local-label">[ LOCAL MODE · NO ACCOUNT REQUIRED ]</span>
+    </header>
+
+    <main>
+      <div class="workspace">
+        <section class="panel tree-panel" aria-labelledby="treeHeading">
+          <h2 id="treeHeading">&gt; TREVOR THE TREE</h2>
+          <p class="section-description">Every milestone helps Trevor grow.</p>
+
+          <div class="tree-wrap">
+            <canvas
+              id="treeCanvas"
+              width="180"
+              height="220"
+              role="img"
+              aria-label="Trevor the pixel tree, growing as milestones are added."
+            ></canvas>
+          </div>
+
+          <p class="growth-count" id="growthCount">0 / 12 milestones</p>
+          <p class="growth-caption" id="growthCaption">Trevor is waiting for his first leaf.</p>
+
+          <div
+            class="progress-track"
+            role="progressbar"
+            aria-label="Tree growth"
+            aria-valuemin="0"
+            aria-valuemax="12"
+            aria-valuenow="0"
+            id="progressTrack"
+          >
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <div class="progress-label">
+            <span>SAPLING</span>
+            <span>FULL CANOPY</span>
+          </div>
+
+          <p class="tree-joke" id="treeJoke" aria-live="polite">
+            Trevor is considering his options.
+          </p>
+        </section>
+
+        <section class="panel" aria-labelledby="logHeading">
+          <div class="log-header">
+            <h2 id="logHeading">&gt; GROWTH LOG</h2>
+            <p class="section-description">
+              Every big idea starts with a small step. You have 12.
+            </p>
+          </div>
+
+          <form class="milestone-form" id="milestoneForm">
+            <label for="milestoneInput" hidden>Milestone</label>
+            <input
+              class="milestone-input"
+              id="milestoneInput"
+              name="milestone"
+              type="text"
+              maxlength="180"
+              placeholder="What did you work on?"
+              autocomplete="off"
+              required
+            >
+            <button class="primary-button" id="submitButton" type="submit">
+              + ADD
+            </button>
+          </form>
+
+          <p class="form-message" id="formMessage" role="status" aria-live="polite">
+            One step at a time.
+          </p>
+
+          <div class="milestone-list" id="milestoneList"></div>
+
+          <p class="limit-note" id="limitNote">
+            Maximum 12 milestones. Edit or remove one whenever you need room.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <span class="footer-tagline">Start with an idea. Build something real.</span>
+      <span class="footer-version">SPROUT v0.1</span>
+      <p class="easter-egg">No subscription required to photosynthesize.</p>
+
+      <p class="github-credit">
+        Grown at
+        <a
+          href="https://github.com/VeraLynnDeGraw/SPROUT"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit the SPROUT repository on GitHub"
+        >GitHub · SPROUT ↗</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    "use strict";
+
+    const MAX_MILESTONES = 12;
+    const STORAGE_KEY = "sprout-milestones";
+
+    const JOKES = [
+      "Achievement unlocked. Pants optional.",
+      "The leaf committee has reached a decision.",
+      "Look at you, making progress.",
+      "Your future self says thanks.",
+      "No deadlines. Just tree lines.",
+      "Your tree is branching out. Behave.",
+      "Rooting for you. Literally.",
+      "The tree approves. Naturally.",
+      "Good things take thyme.",
+      "One less thing on paper.",
+      "Small steps. Big tree energy.",
+      "Another day, another leaf."
+    ];
+
+    const milestoneForm = document.querySelector("#milestoneForm");
+    const milestoneInput = document.querySelector("#milestoneInput");
+    const submitButton = document.querySelector("#submitButton");
+    const milestoneList = document.querySelector("#milestoneList");
+    const formMessage = document.querySelector("#formMessage");
+    const growthCount = document.querySelector("#growthCount");
+    const growthCaption = document.querySelector("#growthCaption");
+    const progressTrack = document.querySelector("#progressTrack");
+    const progressFill = document.querySelector("#progressFill");
+    const treeJoke = document.querySelector("#treeJoke");
+    const treeCanvas = document.querySelector("#treeCanvas");
+    const ctx = treeCanvas.getContext("2d");
+
+    let milestones = loadMilestones();
+    let editingIndex = null;
+
+    const jokeOffset = Math.floor(Math.random() * JOKES.length);
+    let jokeCounter = 0;
+
+    function nextJoke() {
+      const joke = JOKES[(jokeOffset + jokeCounter) % JOKES.length];
+      jokeCounter += 1;
+      return joke;
+    }
+
+    function loadMilestones() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (!saved) {
+          return [];
+        }
+
+        const parsed = JSON.parse(saved);
+
+        if (!Array.isArray(parsed)) {
+          return [];
+        }
+
+        return parsed
+          .filter(item => typeof item === "string")
+          .map(item => item.trim())
+          .filter(Boolean)
+          .slice(0, MAX_MILESTONES);
+      } catch (error) {
+        console.warn("SPROUT could not read saved milestones.", error);
+        return [];
+      }
+    }
+
+    function saveMilestones() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(milestones));
+        return true;
+      } catch (error) {
+        console.error("SPROUT could not save milestones.", error);
+        showMessage(
+          "Your browser could not save this change. Check local storage settings.",
+          true
+        );
+        return false;
+      }
+    }
+
+    function showMessage(message, isError = false) {
+      formMessage.textContent = message;
+      formMessage.classList.toggle("error", isError);
+    }
+
+    function updateProgress() {
+      const count = milestones.length;
+      const percentage = (count / MAX_MILESTONES) * 100;
+
+      growthCount.textContent = `${count} / ${MAX_MILESTONES} milestones`;
+      progressFill.style.width = `${percentage}%`;
+      progressTrack.setAttribute("aria-valuenow", String(count));
+
+      if (count === 0) {
+        growthCaption.textContent = "Trevor is waiting for his first leaf.";
+      } else if (count < 4) {
+        growthCaption.textContent = "A promising little sapling.";
+      } else if (count < 8) {
+        growthCaption.textContent = "Trevor is finding his branches.";
+      } else if (count < MAX_MILESTONES) {
+        growthCaption.textContent = "That canopy is coming along.";
+      } else {
+        growthCaption.textContent = "Full canopy. Trevor is very proud.";
+      }
+
+      drawTree(count);
+
+      submitButton.disabled = count >= MAX_MILESTONES && editingIndex === null;
+      submitButton.style.opacity = submitButton.disabled ? "0.5" : "1";
+      submitButton.style.cursor = submitButton.disabled ? "not-allowed" : "pointer";
+
+      milestoneInput.disabled = count >= MAX_MILESTONES && editingIndex === null;
+      milestoneInput.placeholder = milestoneInput.disabled
+        ? "Trevor has reached his limit."
+        : editingIndex === null
+          ? "What did you work on?"
+          : "Edit your milestone";
+
+      document.querySelector("#limitNote").textContent =
+        count >= MAX_MILESTONES
+          ? "All 12 spaces are occupied. Edit or delete a milestone to make room."
+          : `Maximum 12 milestones. ${MAX_MILESTONES - count} ${MAX_MILESTONES - count === 1 ? "space" : "spaces"} remaining.`;
+    }
+
+    function renderMilestones() {
+      milestoneList.replaceChildren();
+
+      if (milestones.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent = "Nothing here yet. Every mighty tree starts somewhere.";
+        milestoneList.appendChild(empty);
+      } else {
+        milestones.forEach((milestone, index) => {
+          const goal = document.createElement("article");
+          goal.className = "goal";
+
+          const number = document.createElement("span");
+          number.className = "goal-number";
+          number.textContent = String(index + 1).padStart(2, "0");
+          number.setAttribute("aria-hidden", "true");
+
+          const content = document.createElement("div");
+          content.className = "goal-content";
+
+          const text = document.createElement("p");
+          text.className = "goal-text";
+          text.textContent = milestone;
+
+          content.appendChild(text);
+
+          const actions = document.createElement("div");
+          actions.className = "goal-actions";
+
+          const editButton = document.createElement("button");
+          editButton.type = "button";
+          editButton.className = "secondary-button";
+          editButton.textContent = "EDIT";
+          editButton.setAttribute("aria-label", `Edit milestone ${index + 1}`);
+          editButton.addEventListener("click", () => startEditing(index));
+
+          const deleteButton = document.createElement("button");
+          deleteButton.type = "button";
+          deleteButton.className = "secondary-button delete-button";
+          deleteButton.textContent = "DELETE";
+          deleteButton.setAttribute("aria-label", `Delete milestone ${index + 1}`);
+          deleteButton.addEventListener("click", () => deleteMilestone(index));
+
+          actions.append(editButton, deleteButton);
+          goal.append(number, content, actions);
+          milestoneList.appendChild(goal);
+
+          if (index < milestones.length - 1) {
+            const joke = document.createElement("p");
+            joke.className = "entry-joke";
+            joke.textContent = JOKES[(jokeOffset + index) % JOKES.length];
+            milestoneList.appendChild(joke);
+          }
+        });
+      }
+
+      updateProgress();
+    }
+
+    function startEditing(index) {
+      if (index < 0 || index >= milestones.length) {
+        return;
+      }
+
+      editingIndex = index;
+      milestoneInput.value = milestones[index];
+      submitButton.textContent = "SAVE";
+      milestoneInput.placeholder = "Edit your milestone";
+      showMessage("Make your changes. Trevor is listening.");
+      milestoneInput.focus();
+      milestoneInput.select();
+      updateProgress();
+    }
+
+    function cancelEditing() {
+      editingIndex = null;
+      milestoneInput.value = "";
+      submitButton.textContent = "+ ADD";
+      updateProgress();
+    }
+
+    function deleteMilestone(index) {
+      if (index < 0 || index >= milestones.length) {
+        return;
+      }
+
+      const deletedWasBeingEdited = editingIndex === index;
+      milestones.splice(index, 1);
+
+      if (editingIndex !== null) {
+        if (deletedWasBeingEdited) {
+          cancelEditing();
+        } else if (index < editingIndex) {
+          editingIndex -= 1;
+        }
+      }
+
+      if (!saveMilestones()) {
+        milestones = loadMilestones();
+      }
+
+      renderMilestones();
+      showMessage(nextJoke());
+      milestoneInput.focus();
+    }
+
+    milestoneForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const value = milestoneInput.value.trim();
+
+      if (!value) {
+        showMessage("Give that milestone a few words first.", true);
+        milestoneInput.focus();
+        return;
+      }
+
+      if (editingIndex !== null) {
+        if (editingIndex < 0 || editingIndex >= milestones.length) {
+          cancelEditing();
+          showMessage("That milestone moved. Try again.", true);
+          renderMilestones();
+          return;
+        }
+
+        const previous = milestones[editingIndex];
+        milestones[editingIndex] = value;
+
+        if (!saveMilestones()) {
+          milestones[editingIndex] = previous;
+          renderMilestones();
+          return;
+        }
+
+        cancelEditing();
+        renderMilestones();
+        showMessage(nextJoke());
+        return;
+      }
+
+      if (milestones.length >= MAX_MILESTONES) {
+        showMessage("Trevor has reached his limit. Edit or delete a milestone to make room.", true);
+        return;
+      }
+
+      milestones.push(value);
+
+      if (!saveMilestones()) {
+        milestones.pop();
+        renderMilestones();
+        return;
+      }
+
+      milestoneInput.value = "";
+      renderMilestones();
+
+      if (milestones.length === MAX_MILESTONES) {
+        showMessage("Achievement unlocked. Trevor has a full canopy!");
+      } else {
+        showMessage(nextJoke());
+      }
+
+      milestoneInput.focus();
+    });
+
+    milestoneInput.addEventListener("input", () => {
+      if (formMessage.classList.contains("error")) {
+        showMessage("One step at a time.");
+      }
+    });
+
+    function drawTree(count) {
+      const pixel = 6;
+      const width = treeCanvas.width;
+      const height = treeCanvas.height;
+
+      ctx.clearRect(0, 0, width, height);
+
+      ctx.fillStyle = "#294533";
+      ctx.fillRect(24, 181, 132, pixel);
+
+      ctx.fillStyle = "#1b3523";
+      ctx.fillRect(42, 187, 96, pixel);
+
+      ctx.fillStyle = "#345e3e";
+      ctx.fillRect(30, 175, 6, 6);
+      ctx.fillRect(144, 175, 6, 6);
+      ctx.fillRect(54, 193, 6, 3);
+      ctx.fillRect(120, 193, 6, 3);
+
+      if (count === 0) {
+        ctx.fillStyle = "#8cbd73";
+        ctx.fillRect(84, 169, 12, 6);
+        ctx.fillRect(87, 163, 6, 6);
+
+        ctx.fillStyle = "#e4c878";
+        ctx.fillRect(87, 175, 6, 6);
+        return;
+      }
+
+      ctx.fillStyle = "#8a623b";
+      ctx.fillRect(81, 139, 18, 42);
+      ctx.fillRect(75, 151, 6, 18);
+      ctx.fillRect(99, 145, 6, 24);
+
+      ctx.fillStyle = "#a47a49";
+      ctx.fillRect(87, 145, 6, 36);
+      ctx.fillRect(69, 145, 6, 6);
+      ctx.fillRect(105, 139, 6, 6);
+
+      ctx.fillStyle = "#8a623b";
+      ctx.fillRect(69, 121, 18, 6);
+      ctx.fillRect(63, 115, 6, 12);
+      ctx.fillRect(93, 109, 18, 6);
+      ctx.fillRect(111, 103, 6, 12);
+
+      const tiers = [
+        { y: 115, x: 45, w: 90 },
+        { y: 97, x: 33, w: 114 },
+        { y: 79, x: 27, w: 126 },
+        { y: 61, x: 33, w: 114 },
+        { y: 43, x: 45, w: 90 },
+        { y: 25, x: 63, w: 54 }
+      ];
+
+      const visibleTiers = Math.max(
+        1,
+        Math.ceil((count / MAX_MILESTONES) * tiers.length)
+      );
+
+      tiers.slice(0, visibleTiers).forEach((tier, tierIndex) => {
+        const palette = [
+          "#286641",
+          "#347c4b",
+          "#3e9155",
+          "#4ba461",
+          "#5ab66e",
+          "#72c77d"
+        ];
+
+        ctx.fillStyle = palette[Math.min(tierIndex, palette.length - 1)];
+        ctx.fillRect(tier.x, tier.y, tier.w, 18);
+      });
+
+      if (count >= 2) {
+        ctx.fillStyle = "#347c4b";
+        ctx.fillRect(39, 109, 102, 12);
+      }
+
+      if (count >= 4) {
+        ctx.fillStyle = "#3e9155";
+        ctx.fillRect(33, 91, 114, 12);
+      }
+
+      if (count >= 6) {
+        ctx.fillStyle = "#4ba461";
+        ctx.fillRect(39, 73, 102, 12);
+      }
+
+      if (count >= 8) {
+        ctx.fillStyle = "#5ab66e";
+        ctx.fillRect(51, 55, 78, 12);
+      }
+
+      if (count >= 10) {
+        ctx.fillStyle = "#72c77d";
+        ctx.fillRect(63, 37, 54, 12);
+      }
+
+      if (count >= 12) {
+        ctx.fillStyle = "#83d58b";
+        ctx.fillRect(75, 19, 30, 12);
+        ctx.fillRect(69, 25, 42, 12);
+      }
+
+      ctx.fillStyle = "#8be09a";
+      ctx.fillRect(51, 85, 6, 6);
+      ctx.fillRect(75, 67, 6, 6);
+      ctx.fillRect(111, 91, 6, 6);
+
+      if (count >= 4) {
+        ctx.fillRect(63, 49, 6, 6);
+        ctx.fillRect(99, 61, 6, 6);
+      }
+
+      if (count >= 7) {
+        ctx.fillRect(87, 31, 6, 6);
+        ctx.fillRect(123, 103, 6, 6);
+      }
+
+      if (count >= 3) {
+        ctx.fillStyle = "#d9f2bd";
+        ctx.fillRect(69, 91, 6, 6);
+        ctx.fillRect(105, 91, 6, 6);
+
+        ctx.fillStyle = "#163d27";
+        ctx.fillRect(69, 97, 6, 6);
+        ctx.fillRect(105, 97, 6, 6);
+
+        ctx.fillStyle = "#d9f2bd";
+        ctx.fillRect(81, 103, 18, 6);
+      }
+
+      if (count >= MAX_MILESTONES) {
+        ctx.fillStyle = "#e4c878";
+        ctx.fillRect(87, 7, 6, 6);
+        ctx.fillRect(75, 13, 6, 6);
+        ctx.fillRect(99, 13, 6, 6);
+      }
+    }
+
+    treeJoke.textContent = nextJoke();
+    renderMilestones();
+  </script>
+</body>
+</html>
