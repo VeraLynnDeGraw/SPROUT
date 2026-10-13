@@ -83,7 +83,7 @@ A public repository may expose source code, commit history, author information, 
 
 See [docs/PRIVACY.md](docs/PRIVACY.md) for more detail.
 
-## A Tree You Can Copy
+## Cloning and Independent Use
 
 The repository is available so people can inspect the source and create independent copies.
 
